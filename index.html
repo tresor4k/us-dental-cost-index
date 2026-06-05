@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>US Dental Cost Index by State (2026) — Interactive Explorer</title>
+<meta name="description" content="Average dental implant, veneer and braces prices for all 50 US states + DC in 2026, with a composite Cost Index. Dental prices track cost of living at Pearson r = 0.835. Open data, CC BY 4.0.">
+<link rel="canonical" href="https://tresor4k.github.io/us-dental-cost-index/">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{--ink:#0f172a;--muted:#64748b;--teal:#0f766e;--red:#b91c1c;--line:#e2e8f0}
+  *{box-sizing:border-box}
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);line-height:1.6;max-width:900px;margin:0 auto;padding:24px}
+  h1{font-size:1.9rem;margin:.2em 0}
+  h2{margin-top:2em;border-bottom:1px solid var(--line);padding-bottom:.3em}
+  a{color:var(--teal)}
+  .lede{font-size:1.05rem}
+  .card{background:#f8fafc;border-left:4px solid var(--teal);padding:14px 18px;border-radius:0 10px 10px 0;margin:18px 0}
+  table{border-collapse:collapse;width:100%;font-size:.92rem;margin-top:1em}
+  th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right}
+  th:nth-child(2),td:nth-child(2){text-align:left}
+  th{cursor:pointer;background:#f1f5f9;position:sticky;top:0;user-select:none}
+  th:hover{background:#e2e8f0}
+  tr:hover td{background:#f8fafc}
+  .muted{color:var(--muted);font-size:.85rem}
+  canvas{margin-top:1em}
+</style>
+</head>
+<body>
+<h1>US Dental Cost Index by State (2026)</h1>
+<p class="lede">How much does dental care cost across the United States, and <em>why</em>? This open dataset reports average single-implant, veneer and full-course braces prices for all <strong>50 states + DC</strong> in 2026, with a composite <strong>Cost Index</strong> (100 = national average).</p>
+<div class="card"><strong>Key finding:</strong> a state's dental Cost Index tracks its cost of living at <strong>Pearson r = 0.835</strong> — dental fees follow local rent and wages far more than anything clinical. A single implant averages <strong>$3,759 in Alabama</strong> vs <strong>$5,733 in California</strong>.</div>
+
+<h2>Dental prices vs cost of living (r = 0.835)</h2>
+<canvas id="scatter" height="160"></canvas>
+
+<h2>Explore all 51 jurisdictions <span class="muted">(click a column header to sort)</span></h2>
+<table id="tbl"><thead><tr>
+<th data-k="rank">#</th><th data-k="state">State</th><th data-k="implant_avg_usd">Implant $</th>
+<th data-k="veneer_avg_usd">Veneer $</th><th data-k="braces_avg_usd">Braces $</th>
+<th data-k="cost_index">Cost Index</th><th data-k="cost_of_living_index">Cost of living</th>
+<th data-k="affordability_score">Afford.</th>
+</tr></thead><tbody></tbody></table>
+
+<h2>About this dataset</h2>
+<p>The <strong>Cost Index</strong> = each procedure's price &divide; its national average &times; 100, then averaged (so 100 = the U.S. average). Deliberately simple and fully reproducible from the open CSV in this repository.</p>
+<ul>
+<li>Full methodology &amp; interactive ranking: <a href="https://realdentalcosts.com/en/us-dental-cost-index/">realdentalcosts.com/en/us-dental-cost-index</a></li>
+<li>Citable DOI (Zenodo): <a href="https://doi.org/10.5281/zenodo.20531729">10.5281/zenodo.20531729</a></li>
+<li>License: <strong>CC BY 4.0</strong> &mdash; attribute to <a href="https://realdentalcosts.com/">Real Dental Costs</a>.</li>
+</ul>
+<p class="muted">Market and pricing research, not clinical or treatment advice. Compiled by the Real Dental Costs Data &amp; Research Team.</p>
+
+<script>
+const DATA = [{"rank":1,"state":"Alabama","code":"AL","implant_avg_usd":3759,"veneer_avg_usd":940,"braces_avg_usd":3007,"cost_index":76,"cost_of_living_index":88.8,"affordability_score":50},{"rank":2,"state":"Arkansas","code":"AR","implant_avg_usd":3833,"veneer_avg_usd":958,"braces_avg_usd":3066,"cost_index":77,"cost_of_living_index":86,"affordability_score":62},{"rank":3,"state":"Mississippi","code":"MS","implant_avg_usd":3885,"veneer_avg_usd":971,"braces_avg_usd":3108,"cost_index":79,"cost_of_living_index":84,"affordability_score":54},{"rank":4,"state":"Kentucky","code":"KY","implant_avg_usd":3948,"veneer_avg_usd":987,"braces_avg_usd":3158,"cost_index":80,"cost_of_living_index":91,"affordability_score":71},{"rank":5,"state":"West Virginia","code":"WV","implant_avg_usd":3969,"veneer_avg_usd":992,"braces_avg_usd":3175,"cost_index":80,"cost_of_living_index":89,"affordability_score":73},{"rank":6,"state":"Iowa","code":"IA","implant_avg_usd":3990,"veneer_avg_usd":998,"braces_avg_usd":3192,"cost_index":81,"cost_of_living_index":89,"affordability_score":73},{"rank":7,"state":"Kansas","code":"KS","implant_avg_usd":4032,"veneer_avg_usd":1008,"braces_avg_usd":3226,"cost_index":82,"cost_of_living_index":87.5,"affordability_score":59},{"rank":8,"state":"Oklahoma","code":"OK","implant_avg_usd":4053,"veneer_avg_usd":1013,"braces_avg_usd":3242,"cost_index":82,"cost_of_living_index":86,"affordability_score":60},{"rank":9,"state":"Indiana","code":"IN","implant_avg_usd":4095,"veneer_avg_usd":1024,"braces_avg_usd":3276,"cost_index":83,"cost_of_living_index":90,"affordability_score":56},{"rank":10,"state":"South Dakota","code":"SD","implant_avg_usd":4095,"veneer_avg_usd":1024,"braces_avg_usd":3276,"cost_index":83,"cost_of_living_index":97,"affordability_score":64},{"rank":11,"state":"Louisiana","code":"LA","implant_avg_usd":4137,"veneer_avg_usd":1034,"braces_avg_usd":3310,"cost_index":84,"cost_of_living_index":92,"affordability_score":54},{"rank":12,"state":"Nebraska","code":"NE","implant_avg_usd":4158,"veneer_avg_usd":1040,"braces_avg_usd":3326,"cost_index":84,"cost_of_living_index":92,"affordability_score":68},{"rank":13,"state":"South Carolina","code":"SC","implant_avg_usd":4158,"veneer_avg_usd":1040,"braces_avg_usd":3326,"cost_index":84,"cost_of_living_index":91,"affordability_score":54},{"rank":14,"state":"Georgia","code":"GA","implant_avg_usd":4179,"veneer_avg_usd":1045,"braces_avg_usd":3343,"cost_index":84,"cost_of_living_index":95,"affordability_score":50},{"rank":15,"state":"Missouri","code":"MO","implant_avg_usd":4179,"veneer_avg_usd":1045,"braces_avg_usd":3343,"cost_index":84,"cost_of_living_index":90,"affordability_score":55},{"rank":16,"state":"Tennessee","code":"TN","implant_avg_usd":4179,"veneer_avg_usd":1045,"braces_avg_usd":3343,"cost_index":84,"cost_of_living_index":90.5,"affordability_score":70},{"rank":17,"state":"North Dakota","code":"ND","implant_avg_usd":4200,"veneer_avg_usd":1050,"braces_avg_usd":3360,"cost_index":85,"cost_of_living_index":92,"affordability_score":68},{"rank":18,"state":"Ohio","code":"OH","implant_avg_usd":4200,"veneer_avg_usd":1050,"braces_avg_usd":3360,"cost_index":85,"cost_of_living_index":91.5,"affordability_score":69},{"rank":19,"state":"North Carolina","code":"NC","implant_avg_usd":4242,"veneer_avg_usd":1061,"braces_avg_usd":3394,"cost_index":86,"cost_of_living_index":96,"affordability_score":64},{"rank":20,"state":"Michigan","code":"MI","implant_avg_usd":4305,"veneer_avg_usd":1076,"braces_avg_usd":3444,"cost_index":87,"cost_of_living_index":92.5,"affordability_score":67},{"rank":21,"state":"New Mexico","code":"NM","implant_avg_usd":4305,"veneer_avg_usd":1076,"braces_avg_usd":3444,"cost_index":87,"cost_of_living_index":93,"affordability_score":66},{"rank":22,"state":"Wisconsin","code":"WI","implant_avg_usd":4326,"veneer_avg_usd":1082,"braces_avg_usd":3461,"cost_index":87,"cost_of_living_index":93,"affordability_score":66},{"rank":23,"state":"Utah","code":"UT","implant_avg_usd":4347,"veneer_avg_usd":1087,"braces_avg_usd":3478,"cost_index":88,"cost_of_living_index":96,"affordability_score":38},{"rank":24,"state":"Idaho","code":"ID","implant_avg_usd":4368,"veneer_avg_usd":1092,"braces_avg_usd":3494,"cost_index":88,"cost_of_living_index":94,"affordability_score":65},{"rank":25,"state":"Minnesota","code":"MN","implant_avg_usd":4410,"veneer_avg_usd":1103,"braces_avg_usd":3528,"cost_index":89,"cost_of_living_index":98,"affordability_score":60},{"rank":26,"state":"Texas","code":"TX","implant_avg_usd":4410,"veneer_avg_usd":1103,"braces_avg_usd":3528,"cost_index":89,"cost_of_living_index":93,"affordability_score":40},{"rank":27,"state":"Wyoming","code":"WY","implant_avg_usd":4452,"veneer_avg_usd":1113,"braces_avg_usd":3562,"cost_index":90,"cost_of_living_index":92,"affordability_score":51},{"rank":28,"state":"Arizona","code":"AZ","implant_avg_usd":4490,"veneer_avg_usd":1123,"braces_avg_usd":3592,"cost_index":91,"cost_of_living_index":96,"affordability_score":37},{"rank":29,"state":"Florida","code":"FL","implant_avg_usd":4515,"veneer_avg_usd":1129,"braces_avg_usd":3612,"cost_index":91,"cost_of_living_index":98,"affordability_score":34},{"rank":30,"state":"Montana","code":"MT","implant_avg_usd":4515,"veneer_avg_usd":1129,"braces_avg_usd":3612,"cost_index":91,"cost_of_living_index":94,"affordability_score":63},{"rank":31,"state":"Colorado","code":"CO","implant_avg_usd":4538,"veneer_avg_usd":1135,"braces_avg_usd":3630,"cost_index":92,"cost_of_living_index":101,"affordability_score":56},{"rank":32,"state":"Virginia","code":"VA","implant_avg_usd":4578,"veneer_avg_usd":1145,"braces_avg_usd":3662,"cost_index":93,"cost_of_living_index":99,"affordability_score":33},{"rank":33,"state":"Illinois","code":"IL","implant_avg_usd":4589,"veneer_avg_usd":1147,"braces_avg_usd":3671,"cost_index":93,"cost_of_living_index":98,"affordability_score":59},{"rank":34,"state":"Maine","code":"ME","implant_avg_usd":4620,"veneer_avg_usd":1155,"braces_avg_usd":3696,"cost_index":93,"cost_of_living_index":103,"affordability_score":54},{"rank":35,"state":"Pennsylvania","code":"PA","implant_avg_usd":4620,"veneer_avg_usd":1155,"braces_avg_usd":3696,"cost_index":93,"cost_of_living_index":99,"affordability_score":58},{"rank":36,"state":"Connecticut","code":"CT","implant_avg_usd":4683,"veneer_avg_usd":1171,"braces_avg_usd":3746,"cost_index":95,"cost_of_living_index":108,"affordability_score":48},{"rank":37,"state":"Oregon","code":"OR","implant_avg_usd":4725,"veneer_avg_usd":1181,"braces_avg_usd":3780,"cost_index":96,"cost_of_living_index":112,"affordability_score":44},{"rank":38,"state":"Vermont","code":"VT","implant_avg_usd":4788,"veneer_avg_usd":1197,"braces_avg_usd":3830,"cost_index":97,"cost_of_living_index":106,"affordability_score":49},{"rank":39,"state":"Delaware","code":"DE","implant_avg_usd":4820,"veneer_avg_usd":1205,"braces_avg_usd":3856,"cost_index":97,"cost_of_living_index":99,"affordability_score":41},{"rank":40,"state":"Nevada","code":"NV","implant_avg_usd":4830,"veneer_avg_usd":1208,"braces_avg_usd":3864,"cost_index":98,"cost_of_living_index":99,"affordability_score":41},{"rank":41,"state":"Rhode Island","code":"RI","implant_avg_usd":4830,"veneer_avg_usd":1208,"braces_avg_usd":3864,"cost_index":98,"cost_of_living_index":107,"affordability_score":48},{"rank":42,"state":"Maryland","code":"MD","implant_avg_usd":4935,"veneer_avg_usd":1234,"braces_avg_usd":3948,"cost_index":100,"cost_of_living_index":116,"affordability_score":38},{"rank":43,"state":"Washington","code":"WA","implant_avg_usd":4935,"veneer_avg_usd":1234,"braces_avg_usd":3948,"cost_index":100,"cost_of_living_index":111,"affordability_score":43},{"rank":44,"state":"New Hampshire","code":"NH","implant_avg_usd":4998,"veneer_avg_usd":1250,"braces_avg_usd":3998,"cost_index":101,"cost_of_living_index":105,"affordability_score":48},{"rank":45,"state":"New Jersey","code":"NJ","implant_avg_usd":5040,"veneer_avg_usd":1260,"braces_avg_usd":4032,"cost_index":102,"cost_of_living_index":110,"affordability_score":43},{"rank":46,"state":"Massachusetts","code":"MA","implant_avg_usd":5145,"veneer_avg_usd":1286,"braces_avg_usd":4116,"cost_index":104,"cost_of_living_index":129,"affordability_score":23},{"rank":47,"state":"District of Columbia","code":"DC","implant_avg_usd":5250,"veneer_avg_usd":1313,"braces_avg_usd":4200,"cost_index":106,"cost_of_living_index":141,"affordability_score":10},{"rank":48,"state":"Alaska","code":"AK","implant_avg_usd":5450,"veneer_avg_usd":1363,"braces_avg_usd":4360,"cost_index":110,"cost_of_living_index":123,"affordability_score":27},{"rank":49,"state":"Hawaii","code":"HI","implant_avg_usd":5460,"veneer_avg_usd":1365,"braces_avg_usd":4368,"cost_index":110,"cost_of_living_index":184,"affordability_score":10},{"rank":50,"state":"New York","code":"NY","implant_avg_usd":5565,"veneer_avg_usd":1391,"braces_avg_usd":4452,"cost_index":112,"cost_of_living_index":123.3,"affordability_score":25},{"rank":51,"state":"California","code":"CA","implant_avg_usd":5733,"veneer_avg_usd":1433,"braces_avg_usd":4586,"cost_index":116,"cost_of_living_index":137.6,"affordability_score":10}];
+const tb = document.querySelector('#tbl tbody');
+let sortK='cost_index', asc=true;
+function fmt(k,v){return (k.endsWith('_usd'))?'$'+v.toLocaleString('en-US'):v}
+function render(){
+  const d=[...DATA].sort((a,b)=> asc?(a[sortK]>b[sortK]?1:-1):(a[sortK]<b[sortK]?1:-1));
+  tb.innerHTML=d.map(r=>`<tr><td>${r.rank}</td><td>${r.state}</td><td>${fmt('implant_avg_usd',r.implant_avg_usd)}</td><td>${fmt('veneer_avg_usd',r.veneer_avg_usd)}</td><td>${fmt('braces_avg_usd',r.braces_avg_usd)}</td><td>${r.cost_index}</td><td>${r.cost_of_living_index}</td><td>${r.affordability_score}</td></tr>`).join('');
+}
+document.querySelectorAll('#tbl th').forEach(th=>th.onclick=()=>{const k=th.dataset.k; asc=(k===sortK)?!asc:true; sortK=k; render();});
+render();
+const xs=DATA.map(d=>d.cost_of_living_index), ys=DATA.map(d=>d.cost_index);
+const n=xs.length, mx=xs.reduce((a,b)=>a+b)/n, my=ys.reduce((a,b)=>a+b)/n;
+const cov=xs.reduce((s,x,i)=>s+(x-mx)*(ys[i]-my),0), vx=xs.reduce((s,x)=>s+(x-mx)**2,0);
+const slope=cov/vx, intc=my-slope*mx, x0=Math.min(...xs), x1=Math.max(...xs);
+new Chart(document.getElementById('scatter'),{
+  data:{datasets:[
+    {type:'scatter',label:'States',data:DATA.map(d=>({x:d.cost_of_living_index,y:d.cost_index,s:d.state})),backgroundColor:'#0f766e'},
+    {type:'line',label:'Linear fit (r = 0.835)',data:[{x:x0,y:slope*x0+intc},{x:x1,y:slope*x1+intc}],borderColor:'#b91c1c',borderWidth:2,pointRadius:0,fill:false}
+  ]},
+  options:{scales:{x:{title:{display:true,text:'State cost-of-living index'}},y:{title:{display:true,text:'Dental Cost Index (100 = US avg)'}}},
+    plugins:{tooltip:{callbacks:{label:c=>c.raw.s?`${c.raw.s}: index ${c.raw.y}`:''}}}}
+});
+</script>
+</body>
+</html>
